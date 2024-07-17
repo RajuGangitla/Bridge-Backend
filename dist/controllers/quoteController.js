@@ -13,8 +13,7 @@ exports.fetchQuote = void 0;
 const xyFinanceService_1 = require("../services/xyFinanceService");
 const fetchQuote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { token, chain } = req.body;
-        const quote = yield (0, xyFinanceService_1.getQuote)(token, chain);
+        const quote = yield (0, xyFinanceService_1.getQuote)(req.body);
         res.status(200).json(quote);
     }
     catch (error) {

@@ -12,21 +12,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTransactionParams = exports.getQuote = exports.getTokens = void 0;
+exports.getTransactionParams = exports.getQuote = exports.getSupportedChains = exports.getTokens = void 0;
 const httpClient_1 = __importDefault(require("../utils/httpClient"));
-const getTokens = () => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield httpClient_1.default.get(`/supportedChains`);
-    console.log(response.data);
+const schemas_1 = require("../validation/schemas");
+const convertToQueryParams_1 = require("../utils/convertToQueryParams");
+const getTokens = (chainId) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield httpClient_1.default.get(`/recommendedTokens?chainId=${chainId}`);
     return response.data;
 });
 exports.getTokens = getTokens;
-const getQuote = (token, chain) => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield httpClient_1.default.post(`/quotes`, { token, chain });
+const getSupportedChains = () => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield httpClient_1.default.get(`/supportedChains`);
+    return response.data;
+});
+exports.getSupportedChains = getSupportedChains;
+const getQuote = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    const parsedData = schemas_1.quoteSchema.safeParse(data);
+    if (!parsedData.success) {
+        throw new Error(`Invalid quote data: ${parsedData.error}`);
+    }
+    const queryString = new URLSearchParams((0, convertToQueryParams_1.convertToQueryParams)(parsedData.data)).toString();
+    const response = yield httpClient_1.default.get(`/quote?${queryString}`);
     return response.data;
 });
 exports.getQuote = getQuote;
-const getTransactionParams = (quoteId) => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield httpClient_1.default.post(`/params`, { quoteId });
+const getTransactionParams = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    const parsedData = schemas_1.transactionParamsSchema.safeParse(data);
+    if (!parsedData.success) {
+        throw new Error(`Invalid transaction data: ${parsedData.error}`);
+    }
+    const queryString = new URLSearchParams((0, convertToQueryParams_1.convertToQueryParams)(parsedData.data)).toString();
+    const response = yield httpClient_1.default.get(`/buildTx?${queryString}`);
     return response.data;
 });
 exports.getTransactionParams = getTransactionParams;

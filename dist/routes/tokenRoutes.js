@@ -4,7 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const quoteController_1 = require("../controllers/quoteController");
+const tokenController_1 = require("../controllers/tokenController");
 const router = express_1.default.Router();
-router.route("/tokens").get(quoteController_1.fetchQuote);
+router.route("/tokens").get(tokenController_1.fetchTokens);
+router.route("/chains").get(tokenController_1.fetchSupportedChains);
 exports.default = router;

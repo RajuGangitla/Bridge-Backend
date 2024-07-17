@@ -6,5 +6,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const transactionController_1 = require("../controllers/transactionController");
 const router = express_1.default.Router();
-router.route("/params").get(transactionController_1.fetchTransactionParams);
+router.route("/transaction").post(transactionController_1.fetchTransactionParams);
 exports.default = router;

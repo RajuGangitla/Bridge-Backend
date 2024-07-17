@@ -13,8 +13,7 @@ exports.fetchTransactionParams = void 0;
 const xyFinanceService_1 = require("../services/xyFinanceService");
 const fetchTransactionParams = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { quoteId } = req.body;
-        const transactionParams = yield (0, xyFinanceService_1.getTransactionParams)(quoteId);
+        const transactionParams = yield (0, xyFinanceService_1.getTransactionParams)(req.body);
         res.status(200).json(transactionParams);
     }
     catch (error) {

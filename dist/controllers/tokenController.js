@@ -9,11 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchTokens = void 0;
+exports.fetchSupportedChains = exports.fetchTokens = void 0;
 const xyFinanceService_1 = require("../services/xyFinanceService");
 const fetchTokens = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const tokens = yield (0, xyFinanceService_1.getTokens)();
+        const tokens = yield (0, xyFinanceService_1.getTokens)(req.query.chainId);
         res.status(200).json(tokens);
     }
     catch (error) {
@@ -21,3 +21,13 @@ const fetchTokens = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.fetchTokens = fetchTokens;
+const fetchSupportedChains = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const tokens = yield (0, xyFinanceService_1.getSupportedChains)();
+        res.status(200).json(tokens);
+    }
+    catch (error) {
+        res.status(500).json({ error: 'Error fetching blockchains', message: error });
+    }
+});
+exports.fetchSupportedChains = fetchSupportedChains;
