@@ -13,8 +13,13 @@ const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
+let corsOptions = {
+    origin: ["http://localhost:3000/", "https://bridge-frontend-beige.vercel.app/"],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+    credentials: true,
+};
 // Enable CORS for all routes
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)(corsOptions));
 //routes
 app.use('/api', tokenRoutes_1.default);
 app.use('/api', quoteRoutes_1.default);
